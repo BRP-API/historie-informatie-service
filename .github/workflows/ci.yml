@@ -3,19 +3,69 @@ name: continuous integration
 on:
   push:
     paths:
+      - src/**
       - features/**
       - .github/workflows/ci.yml
   workflow_dispatch:
+    inputs:
+      publishType:
+        description: wat moet worden gereleased?
+        required: true
+        default: ''
+        type: choice
+        options:
+          - app
+          - mock
 
 env:
   NODE_VERSION: '20'
+  DOTNET_SOLUTION_FILE_PATH: ./src/InformatieService.sln
+  APP_PROJECT_PATH: ./src/Historie.Informatie.Service
+  APP_CSPROJ_FILE_PATH: ./src/Historie.Informatie.Service/Historie.Informatie.Service.csproj
+  APP_CONTAINER_IMAGE: ghcr.io/brp-api/historie-informatie-service
+  MOCK_PROJECT_PATH: ./src/Historie.Data.Mock
+  MOCK_CSPROJ_FILE_PATH: ./src/Historie.Data.Mock/Historie.Data.Mock.csproj
+  MOCK_CONTAINER_IMAGE: ghcr.io/brp-api/historie-service-mock
 
 jobs:
-  validate:
+  continuous-integration:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+
+      - name: Genereer build run identifier
+        id: build-run-id
+        uses: ./.github/actions/genereer-build-run-identifier
+
+      - name: Zet versie met build run in app csproj
+        uses: ./.github/actions/zet-versie-met-build-run-in-csproj
+        id: app-version
+        with:
+          path-csproj-file: ${{ env.APP_CSPROJ_FILE_PATH }}
+          build-run: ${{ steps.build-run-id.outputs.build-run }}
+      - name: Zet versie met build run in mock csproj
+        uses: ./.github/actions/zet-versie-met-build-run-in-csproj
+        id: mock-version
+        with:
+          path-csproj-file: ${{ env.MOCK_CSPROJ_FILE_PATH }}
+          build-run: ${{ steps.build-run-id.outputs.build-run }}
+
+      - name: Bepaal gewijzigd project
+        uses: dorny/paths-filter@v3
+        id: changed-project
+        with:
+          filters: |
+            app:
+              - '${{ env.APP_PROJECT_PATH }}/**'
+            mock:
+              - '${{ env.MOCK_PROJECT_PATH }}/**'
+  
+      - name: Valideer .NET solution
+        uses: ./.github/actions/valideer-dotnet-solution
+        with:
+          path-solution-file: ${{ env.DOTNET_SOLUTION_FILE_PATH }} 
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -23,19 +73,74 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run unit tests
+      - name: Zet run permissions op script folder
+        uses: ./.github/actions/zet-run-bash-scripts-permission
+        with:
+          path-bash-file-or-folder: ./scripts/*
+
+      - name: Build container images
         run: |
-          ./scripts/unit-tests-verify.sh
-      - name: Validate Step Definitions
+          ./scripts/containers-build.sh
+
+      - name: Login to P5 Container Registry
+        uses: docker/login-action@v3.1.0
+        with:
+          registry: haalcentraal.azurecr.io
+          username: ${{ secrets.P5_CR_USER }}
+          password: ${{ secrets.P5_CR_PWD }}
+      - name: Start containers
+        run: |
+          ./scripts/containers-start.sh ci
+      - name: Wait for DB restart
+        run: sleep 5s
+        shell: bash
+
+      - name: Valideer specs
         run: |
           ./scripts/specs-verify.sh
+
+      - name: Stop containers
+        if: always()
+        run: |
+          ./scripts/containers-stop.sh ci
+
       - name: Genereer test rapportage
         if: always()
         run: |
-          node ./scripts/generate-cucumber-reports.js
+          node ./scripts/generate-cucumber-reports.js ${{ steps.app-version.outputs.version }} ${{ steps.build-run-id.outputs.build-run }} ${{ github.ref_name }}
       - name: Upload test rapportage
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: Reports
           path: test-reports
+      - name: Push test rapportage naar brp-api.github.io repo
+        if: steps.changed-project.outputs.app == 'true' || inputs.publishType == 'app'
+        uses: tech-thinker/push-to-repo@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.GIT_PAT_TOKEN }}
+        with:
+          source-directory: test-reports/cucumber-js/reports
+          destination-repository-name: brp-api.github.io
+          destination-github-username: BRP-API
+          target-branch: test-reports/historie
+          commit-message: "test rapporten van build: ${{ steps.build-run-id.outputs.build-run }}"
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Tag & push app container images naar registry
+        if: steps.changed-project.outputs.app == 'true' || inputs.publishType == 'app'
+        run: |
+          docker tag ${{ env.APP_CONTAINER_IMAGE }}:latest ${{ env.APP_CONTAINER_IMAGE }}:${{ steps.app-version.outputs.version }}-${{ steps.build-run-id.outputs.build-run }}
+          docker push ${{ env.APP_CONTAINER_IMAGE }}:latest
+          docker push ${{ env.APP_CONTAINER_IMAGE }}:${{ steps.app-version.outputs.version }}-${{ steps.build-run-id.outputs.build-run }}
+      - name: Tag & push mock container images naar registry
+        if: steps.changed-project.outputs.mock == 'true' || inputs.publishType == 'mock'
+        run: |
+          docker tag ${{ env.MOCK_CONTAINER_IMAGE }}:latest ${{ env.MOCK_CONTAINER_IMAGE }}:${{ steps.mock-version.outputs.version }}-${{ steps.build-run-id.outputs.build-run }}
+          docker push ${{ env.MOCK_CONTAINER_IMAGE }}:latest
+          docker push ${{ env.MOCK_CONTAINER_IMAGE }}:${{ steps.mock-version.outputs.version }}-${{ steps.build-run-id.outputs.build-run }}
