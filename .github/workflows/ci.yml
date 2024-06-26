@@ -115,7 +115,7 @@ jobs:
           name: Reports
           path: test-reports
       - name: Push test rapportage naar brp-api.github.io repo
-        if: steps.changed-project.outputs.app == true || inputs.publishType == 'app'
+        if: always()
         uses: tech-thinker/push-to-repo@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.GIT_PAT_TOKEN }}
@@ -127,13 +127,14 @@ jobs:
           commit-message: "test rapporten van build: ${{ steps.build-run-id.outputs.build-run }}"
 
       - name: Login to GitHub Container Registry
+        if: always()
         uses: docker/login-action@v3.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Tag & push app container images naar registry
-        if: steps.changed-project.outputs.app == true || inputs.publishType == 'app'
+        if: always()
         run: |
           docker tag ${{ env.APP_CONTAINER_IMAGE }}:latest ${{ env.APP_CONTAINER_IMAGE }}:${{ steps.app-version.outputs.version }}-${{ steps.build-run-id.outputs.build-run }}
           docker push ${{ env.APP_CONTAINER_IMAGE }}:latest
