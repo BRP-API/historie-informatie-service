@@ -115,7 +115,7 @@ jobs:
           name: Reports
           path: test-reports
       - name: Push test rapportage naar brp-api.github.io repo
-        if: steps.changed-project.outputs.app == 'true' || inputs.publishType == 'app'
+        if: steps.changed-project.outputs.app == true || inputs.publishType == 'app'
         uses: tech-thinker/push-to-repo@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.GIT_PAT_TOKEN }}
@@ -133,13 +133,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Tag & push app container images naar registry
-        if: steps.changed-project.outputs.app == 'true' || inputs.publishType == 'app'
+        if: steps.changed-project.outputs.app == true || inputs.publishType == 'app'
         run: |
           docker tag ${{ env.APP_CONTAINER_IMAGE }}:latest ${{ env.APP_CONTAINER_IMAGE }}:${{ steps.app-version.outputs.version }}-${{ steps.build-run-id.outputs.build-run }}
           docker push ${{ env.APP_CONTAINER_IMAGE }}:latest
           docker push ${{ env.APP_CONTAINER_IMAGE }}:${{ steps.app-version.outputs.version }}-${{ steps.build-run-id.outputs.build-run }}
       - name: Tag & push mock container images naar registry
-        if: steps.changed-project.outputs.mock == 'true' || inputs.publishType == 'mock'
+        if: steps.changed-project.outputs.mock == true || inputs.publishType == 'mock'
         run: |
           docker tag ${{ env.MOCK_CONTAINER_IMAGE }}:latest ${{ env.MOCK_CONTAINER_IMAGE }}:${{ steps.mock-version.outputs.version }}-${{ steps.build-run-id.outputs.build-run }}
           docker push ${{ env.MOCK_CONTAINER_IMAGE }}:latest
