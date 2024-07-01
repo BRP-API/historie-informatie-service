@@ -22,7 +22,21 @@ Functionaliteit: RNI-deelnemer gegevens leveren voor verblijfplaatshistorie met 
       | datumVan            | 2022-01-01          |
       | datumTot            | 2023-01-01          |
       Dan heeft de response verblijfplaatsen met de volgende gegevens
-      | gemeenteVanInschrijving.code | gemeenteVanInschrijving.omschrijving | land.code | land.omschrijving            | regel1     | datumVan.type | datumVan.datum | datumVan.langFormaat | rni.deelnemer.code | rni.deelnemer.omschrijving                        | rni.omschrijvingVerdrag              |
-      | 1999                         | Registratie Niet Ingezetenen (RNI)   | 6014      | Verenigde Staten van Amerika | Die Straße | Datum         | 2007-05-16     | 16 mei 2007          | 0201               | Sociale Verzekeringsbank (inzake AOW, Anw en AKW) | Artikel 45 EU-Werkingsverdrag (VWEU) |
-
+      | type                     | gemeenteVanInschrijving.code | gemeenteVanInschrijving.omschrijving | datumVan.type | datumVan.datum | datumVan.langFormaat |
+      | VerblijfplaatsBuitenland | 1999                         | Registratie Niet Ingezetenen (RNI)   | Datum         | 2007-05-16     | 16 mei 2007          |
+      En heeft het verblijfplaats voorkomen de volgende 'verblijfadres' gegevens
+      | naam              | waarde                       |
+      | land.code         | 6014                         |
+      | land.omschrijving | Verenigde Staten van Amerika |
+      | regel1            | Die Straße                   |
+      En heeft het verblijfplaats voorkomen de volgende 'adressering' gegevens
+      | naam              | waarde                       |
+      | land.code         | 6014                         |
+      | land.omschrijving | Verenigde Staten van Amerika |
+      | adresregel1       | Die Straße                   |
+      En heeft het verblijfplaats voorkomen de volgende 'rni' gegevens
+      | naam                   | waarde                                            |
+      | deelnemer.code         | 0201                                              |
+      | deelnemer.omschrijving | Sociale Verzekeringsbank (inzake AOW, Anw en AKW) |
+      | omschrijvingVerdrag    | Artikel 45 EU-Werkingsverdrag (VWEU)              |
    
