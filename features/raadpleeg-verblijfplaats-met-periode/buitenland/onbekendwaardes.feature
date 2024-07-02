@@ -1,5 +1,6 @@
 #language: nl
 
+@proxy @geen-protocollering
 Functionaliteit: leveren van adresregels wanneer land van een verblijf buitenland de standaardwaarde heeft of geen enkele adresregel een waarde heeft
 
 

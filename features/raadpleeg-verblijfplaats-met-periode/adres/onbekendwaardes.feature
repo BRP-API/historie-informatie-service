@@ -1,5 +1,6 @@
 #language: nl
 
+@proxy @geen-protocollering
 Functionaliteit: leveren van adresregels wanneer straat en/of huisnummer van een adres de standaardwaarde heeft
 
 
@@ -19,8 +20,8 @@ Functionaliteit: leveren van adresregels wanneer straat en/of huisnummer van een
       | datumVan            | 2023-07-01          |
       | datumTot            | 2024-01-01          |
       Dan heeft de response een verblijfplaats voorkomen met de volgende gegevens
-      | type  | datumVan.type | datumVan.datum | datumVan.langFormaat | gemeenteVanInschrijving.code | gemeenteVanInschrijving.omschrijving |
-      | Adres | Datum         | 2023-10-14     | 14 oktober 2023      | 0800                         | Hoogeloon, Hapert en Casteren        |
+      | type  | datumVan.type | datumVan.datum | datumVan.langFormaat | gemeenteVanInschrijving.code | gemeenteVanInschrijving.omschrijving | functieAdres.code | functieAdres.omschrijving |
+      | Adres | Datum         | 2023-10-14     | 14 oktober 2023      | 0800                         | Hoogeloon, Hapert en Casteren        | W                 | woonadres                 |
       En heeft het verblijfplaats voorkomen de volgende 'verblijfadres' gegevens
       | naam            | waarde                     |
       | korteStraatnaam | <korteStraatnaam>          |
