@@ -1,6 +1,6 @@
 # language: nl
 
-@api @geen-protocollering
+@proxy @geen-protocollering
 Functionaliteit: RNI-deelnemer gegevens leveren voor verblijfplaatshistorie met periode
 
     Achtergrond:
