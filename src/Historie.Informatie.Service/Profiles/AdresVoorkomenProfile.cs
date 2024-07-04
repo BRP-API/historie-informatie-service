@@ -2,7 +2,6 @@
 using HaalCentraal.Generated.DataService;
 using HaalCentraal.Generated.InformatieService;
 using Historie.Informatie.Service.Mappers;
-using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace Historie.Informatie.Service.Profiles;
 
