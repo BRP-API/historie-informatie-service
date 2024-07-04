@@ -4,4 +4,5 @@ public interface IBrpInOnderzoek
 {
     string AanduidingGegevensInOnderzoek { get; }
     string DatumIngangOnderzoek { get; }
+    string DatumEindeOnderzoek { get; }
 }
