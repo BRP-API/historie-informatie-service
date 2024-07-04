@@ -29,11 +29,11 @@ public class OverwriteResponseBodyMiddleware
 
         await _next(context);
 
-        if (!await context.HandleNotFound())
+        if (!await context.HandleNotFound(orgBodyStream))
         {
             return;
         }
-        if (!await context.HandleServiceIsAvailable())
+        if (!await context.HandleServiceIsAvailable(orgBodyStream))
         {
             return;
         }
