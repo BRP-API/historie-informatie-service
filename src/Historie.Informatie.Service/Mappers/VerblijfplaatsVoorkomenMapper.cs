@@ -25,36 +25,24 @@ public static class VerblijfplaatsVoorkomenMapper
             _ => null
         };
 
-    public static AbstractDatum? MapVerblijftNietOpAdres(this IBrpVerblijfplaatsVoorkomen voorkomen)
-    {
-        if (voorkomen.InOnderzoek.IsVastgesteldVerblijftNietOpAdres() &&
-            !voorkomen.InOnderzoekVolgendeVerblijfplaats.IsBeëindigdOpOfNa(new[]
-            {
-                voorkomen.DatumAanvangVolgendeAdreshouding,
-                voorkomen.DatumAanvangVolgendeAdresBuitenland
-            }))
-        {
-            return voorkomen.InOnderzoek!.DatumIngangOnderzoek.Map();
-        }
-
-        return null;
-    }
-
-    private static bool IsVastgesteldVerblijftNietOpAdres(this IBrpInOnderzoek? inOnderzoek) =>
+    public static bool IsVastgesteldVerblijftNietOpAdres(this IBrpInOnderzoek? inOnderzoek,
+                                                         string? datumAanvangVolgendeAdreshouding,
+                                                         string? datumAanvangVolgendeAdresBuitenland) =>
         inOnderzoek != null &&
-        new[] { "089999", "589999" }.Contains(inOnderzoek.AanduidingGegevensInOnderzoek);
+        new[] { "089999", "589999" }.Contains(inOnderzoek.AanduidingGegevensInOnderzoek) &&
+                (string.IsNullOrEmpty(inOnderzoek.DatumEindeOnderzoek) ||
+                inOnderzoek.DatumEindeOnderzoek.ValtOpOfNa(datumAanvangVolgendeAdreshouding, datumAanvangVolgendeAdresBuitenland));
 
-    private static bool IsBeëindigdOpOfNa(this IBrpInOnderzoek? inOnderzoek, string?[] datums)
+    private static bool ValtOpOfNa(this string datumEinde,
+                                   string? datumAanvangVolgendeAdreshouding,
+                                   string? datumAanvangVolgendeAdresBuitenland)
     {
-        if(inOnderzoek == null) return false;
+        if (!string.IsNullOrEmpty(datumEinde) && string.IsNullOrEmpty(datumAanvangVolgendeAdreshouding) && string.IsNullOrEmpty(datumAanvangVolgendeAdresBuitenland)) return false;
 
-        foreach(var datum in datums)
-        {
-            if(datum != null && int.Parse(inOnderzoek.DatumIngangOnderzoek) < int.Parse(datum))
-            {
-                return false;
-            }
-        }
+        if (datumAanvangVolgendeAdreshouding != null && int.Parse(datumEinde) < int.Parse(datumAanvangVolgendeAdreshouding)) return false;
+
+        if (datumAanvangVolgendeAdresBuitenland != null && int.Parse(datumEinde) < int.Parse(datumAanvangVolgendeAdresBuitenland)) return false;
+
         return true;
     }
 }
