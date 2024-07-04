@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HaalCentraal.Generated.DataService;
 using HaalCentraal.Generated.InformatieService;
+using Historie.Informatie.Service.Generated;
 using Historie.Informatie.Service.Mappers;
 
 namespace Historie.Informatie.Service.Profiles;
@@ -31,10 +32,23 @@ public class AdresVoorkomenProfile : Profile
                 opt.PreCondition(src => src.HeeftDatumAanvangVolgendeVerblijf());
                 opt.MapFrom(src => src.MapDatumTot());
             })
-            .ForMember(dest => dest.VerblijftNietOpAdresVanaf, opt => opt.MapFrom(src => src.MapVerblijftNietOpAdres()))
+            .ForMember(dest => dest.VerblijftNietOpAdresVanaf, opt =>
+            {
+                opt.PreCondition(src => src.InOnderzoek.IsVastgesteldVerblijftNietOpAdres(src.DatumAanvangVolgendeAdreshouding, src.DatumAanvangVolgendeAdresBuitenland));
+                opt.MapFrom(src => src.InOnderzoek.DatumIngangOnderzoek.Map());
+            })
             .AfterMap((src, dest) =>
             {
                 dest.InOnderzoek = src.InOnderzoekVolgendeVerblijfplaats.MapDatumAanvangVolgendeVerblijfplaatsInOnderzoek(dest.InOnderzoek);
+
+                if(src.InOnderzoek != null &&
+                new[] { "089999", "589999" }.Contains(src.InOnderzoek.AanduidingGegevensInOnderzoek) &&
+                dest.VerblijftNietOpAdresVanaf == null)
+                {
+                    dest.InOnderzoek = null;
+                    dest.Verblijfadres.InOnderzoek = null;
+                    dest.Adressering.InOnderzoek = null;
+                }
             })
             ;
 
@@ -42,4 +56,23 @@ public class AdresVoorkomenProfile : Profile
         CreateMap<GbaInOnderzoek, VerblijfadresBinnenlandInOnderzoek?>().ConvertUsing<VerblijfadresBinnenlandInOnderzoekConverter>();
         CreateMap<GbaInOnderzoek, AdresseringBinnenlandInOnderzoek?>().ConvertUsing<AdresseringBinnenlandInOnderzoekConverter>();
     }
+
+    //private static bool IsVastgesteldVerblijftNietOpAdres(IBrpInOnderzoek inOnderzoek, string? datumAanvangVolgendeAdreshouding, string? datumAanvangVolgendeAdresBuitenland)
+    //{
+    //    return inOnderzoek != null &&
+    //    new[] { "089999", "589999" }.Contains(inOnderzoek.AanduidingGegevensInOnderzoek) &&
+    //    (string.IsNullOrEmpty(inOnderzoek.DatumEindeOnderzoek) ||
+    //    DatumEindeValtOpOfNaDatumAanvang(inOnderzoek.DatumEindeOnderzoek, datumAanvangVolgendeAdreshouding, datumAanvangVolgendeAdresBuitenland));
+    //}
+
+    //private static bool DatumEindeValtOpOfNaDatumAanvang(string datumEinde, string? datumAanvangVolgendeAdreshouding, string? datumAanvangVolgendeAdresBuitenland)
+    //{
+    //    if (!string.IsNullOrEmpty(datumEinde) && string.IsNullOrEmpty(datumAanvangVolgendeAdreshouding) && string.IsNullOrEmpty(datumAanvangVolgendeAdresBuitenland)) return false;
+
+    //    if (datumAanvangVolgendeAdreshouding != null && int.Parse(datumEinde) < int.Parse(datumAanvangVolgendeAdreshouding)) return false;
+
+    //    if(datumAanvangVolgendeAdresBuitenland != null && int.Parse(datumEinde) < int.Parse(datumAanvangVolgendeAdresBuitenland)) return false;
+
+    //    return true;
+    //}
 }

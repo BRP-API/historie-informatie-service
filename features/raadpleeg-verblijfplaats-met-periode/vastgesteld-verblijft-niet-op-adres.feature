@@ -209,20 +209,47 @@ Functionaliteit: persoon met 'indicatie vastgesteld verblijft niet op adres' bij
       En heeft de response een verblijfplaats voorkomen met de volgende gegevens
       | type  | datumVan.type | datumVan.datum | datumVan.langFormaat | datumTot.type | datumTot.datum | datumTot.langFormaat | gemeenteVanInschrijving.code | gemeenteVanInschrijving.omschrijving | functieAdres.code | functieAdres.omschrijving |
       | Adres | Datum         | 2021-10-14     | 14 oktober 2021      | Datum         | 2023-07-30     | 30 juli 2023         | 0800                         | Hoogeloon, Hapert en Casteren        | W                 | woonadres                 |
+      En heeft het verblijfplaats voorkomen de volgende 'inOnderzoek' gegevens
+      | naam                             | waarde      |
+      | adresseerbaarObjectIdentificatie | true        |
+      | datumVan                         | true        |
+      | functieAdres                     | true        |
+      | gemeenteVanInschrijving          | true        |
+      | nummeraanduidingIdentificatie    | true        |
+      | type                             | true        |
+      | datumIngangOnderzoek.type        | Datum       |
+      | datumIngangOnderzoek.datum       | 2023-05-16  |
+      | datumIngangOnderzoek.langFormaat | 16 mei 2023 |
       En heeft het verblijfplaats voorkomen de volgende 'verblijftNietOpAdresVanaf' gegevens
       | naam        | waarde      |
       | type        | Datum       |
       | datum       | 2023-05-16  |
       | langFormaat | 16 mei 2023 |
       En heeft het verblijfplaats voorkomen de volgende 'verblijfadres' gegevens
-      | naam            | waarde  |
-      | korteStraatnaam | Testpad |
-      | huisnummer      | 8       |
-      | postcode        | 1234AB  |
+      | naam                                         | waarde      |
+      | korteStraatnaam                              | Testpad     |
+      | huisnummer                                   | 8           |
+      | postcode                                     | 1234AB      |
+      | inOnderzoek.aanduidingBijHuisnummer          | true        |
+      | inOnderzoek.huisletter                       | true        |
+      | inOnderzoek.huisnummer                       | true        |
+      | inOnderzoek.huisnummertoevoeging             | true        |
+      | inOnderzoek.korteStraatnaam                  | true        |
+      | inOnderzoek.officieleStraatnaam              | true        |
+      | inOnderzoek.postcode                         | true        |
+      | inOnderzoek.woonplaats                       | true        |
+      | inOnderzoek.datumIngangOnderzoek.type        | Datum       |
+      | inOnderzoek.datumIngangOnderzoek.datum       | 2023-05-16  |
+      | inOnderzoek.datumIngangOnderzoek.langFormaat | 16 mei 2023 |
       En heeft het verblijfplaats voorkomen de volgende 'adressering' gegevens
-      | naam        | waarde                                 |
-      | adresregel1 | Testpad 8                              |
-      | adresregel2 | 1234 AB  HOOGELOON, HAPERT EN CASTEREN |
+      | naam                                         | waarde                                 |
+      | adresregel1                                  | Testpad 8                              |
+      | adresregel2                                  | 1234 AB  HOOGELOON, HAPERT EN CASTEREN |
+      | inOnderzoek.adresregel1                      | true                                   |
+      | inOnderzoek.adresregel2                      | true                                   |
+      | inOnderzoek.datumIngangOnderzoek.type        | Datum                                  |
+      | inOnderzoek.datumIngangOnderzoek.datum       | 2023-05-16                             |
+      | inOnderzoek.datumIngangOnderzoek.langFormaat | 16 mei 2023                            |
 
       Voorbeelden:
       | aanduiding onderzoek | op of na | datum einde onderzoek |
@@ -247,6 +274,17 @@ Functionaliteit: persoon met 'indicatie vastgesteld verblijft niet op adres' bij
       Dan heeft de response een verblijfplaats voorkomen met de volgende gegevens
       | type  | datumVan.type | datumVan.datum | datumVan.langFormaat | datumTot.type | datumTot.datum | datumTot.langFormaat | gemeenteVanInschrijving.code | gemeenteVanInschrijving.omschrijving | functieAdres.code | functieAdres.omschrijving |
       | Adres | Datum         | 2021-10-14     | 14 oktober 2021      | Datum         | 2023-07-30     | 30 juli 2023         | 0800                         | Hoogeloon, Hapert en Casteren        | W                 | woonadres                 |
+      En heeft het verblijfplaats voorkomen de volgende 'inOnderzoek' gegevens
+      | naam                             | waarde      |
+      | adresseerbaarObjectIdentificatie | true        |
+      | datumVan                         | true        |
+      | functieAdres                     | true        |
+      | gemeenteVanInschrijving          | true        |
+      | nummeraanduidingIdentificatie    | true        |
+      | type                             | true        |
+      | datumIngangOnderzoek.type        | Datum       |
+      | datumIngangOnderzoek.datum       | 2023-05-16  |
+      | datumIngangOnderzoek.langFormaat | 16 mei 2023 |
       En heeft het verblijfplaats voorkomen de volgende 'verblijftNietOpAdresVanaf' gegevens
       | naam        | waarde      |
       | type        | Datum       |
@@ -257,10 +295,26 @@ Functionaliteit: persoon met 'indicatie vastgesteld verblijft niet op adres' bij
       | korteStraatnaam | Testpad |
       | huisnummer      | 8       |
       | postcode        | 1234AB  |
+      | inOnderzoek.aanduidingBijHuisnummer          | true        |
+      | inOnderzoek.huisletter                       | true        |
+      | inOnderzoek.huisnummer                       | true        |
+      | inOnderzoek.huisnummertoevoeging             | true        |
+      | inOnderzoek.korteStraatnaam                  | true        |
+      | inOnderzoek.officieleStraatnaam              | true        |
+      | inOnderzoek.postcode                         | true        |
+      | inOnderzoek.woonplaats                       | true        |
+      | inOnderzoek.datumIngangOnderzoek.type        | Datum       |
+      | inOnderzoek.datumIngangOnderzoek.datum       | 2023-05-16  |
+      | inOnderzoek.datumIngangOnderzoek.langFormaat | 16 mei 2023 |
       En heeft het verblijfplaats voorkomen de volgende 'adressering' gegevens
-      | naam        | waarde                        |
-      | adresregel1 | Testpad 8                     |
+      | naam        | waarde                                 |
+      | adresregel1 | Testpad 8                              |
       | adresregel2 | 1234 AB  HOOGELOON, HAPERT EN CASTEREN |
+      | inOnderzoek.adresregel1                      | true                                   |
+      | inOnderzoek.adresregel2                      | true                                   |
+      | inOnderzoek.datumIngangOnderzoek.type        | Datum                                  |
+      | inOnderzoek.datumIngangOnderzoek.datum       | 2023-05-16                             |
+      | inOnderzoek.datumIngangOnderzoek.langFormaat | 16 mei 2023                            |
 
       Voorbeelden:
       | aanduiding onderzoek | op of na | datum einde onderzoek |
@@ -291,8 +345,8 @@ Functionaliteit: persoon met 'indicatie vastgesteld verblijft niet op adres' bij
       | huisnummer      | 8       |
       | postcode        | 1234AB  |
       En heeft het verblijfplaats voorkomen de volgende 'adressering' gegevens
-      | naam        | waarde                        |
-      | adresregel1 | Testpad 8                     |
+      | naam        | waarde                                 |
+      | adresregel1 | Testpad 8                              |
       | adresregel2 | 1234 AB  HOOGELOON, HAPERT EN CASTEREN |
 
       Voorbeelden:
@@ -326,6 +380,6 @@ Functionaliteit: persoon met 'indicatie vastgesteld verblijft niet op adres' bij
       | huisnummer      | 8       |
       | postcode        | 1234AB  |
       En heeft het verblijfplaats voorkomen de volgende 'adressering' gegevens
-      | naam        | waarde                        |
-      | adresregel1 | Testpad 8                     |
+      | naam        | waarde                                 |
+      | adresregel1 | Testpad 8                              |
       | adresregel2 | 1234 AB  HOOGELOON, HAPERT EN CASTEREN |
