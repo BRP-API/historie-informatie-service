@@ -20,6 +20,10 @@ public class AdresVoorkomenProfile : Profile
                 opt.PreCondition(src => src.Straat != ".");
                 opt.MapFrom(src => src.Straat);
             })
+            .ForMember(dest => dest.Huisnummer, opt => { 
+                opt.PreCondition(src => src.Huisnummer != 0);
+                opt.MapFrom(src => src.Huisnummer);
+            })
             .ForMember(dest => dest.OfficieleStraatnaam, opt => opt.MapFrom(src => src.NaamOpenbareRuimte))
             ;
 

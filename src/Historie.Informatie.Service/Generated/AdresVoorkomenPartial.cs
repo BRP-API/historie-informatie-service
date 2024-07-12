@@ -9,4 +9,6 @@ public partial class AdresVoorkomen : IAbstractVerblijfplaatsVoorkomen
         get { return this.InOnderzoek; }
         set { this.InOnderzoek = (AdresVoorkomenInOnderzoek)value; }
     }
+
+    public bool ShouldSerializeAdressering() => Adressering != null && Adressering.ShouldSerialize();
 }
