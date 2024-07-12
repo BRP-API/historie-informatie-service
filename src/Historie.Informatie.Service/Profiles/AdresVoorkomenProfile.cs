@@ -47,7 +47,7 @@ public class AdresVoorkomenProfile : Profile
 
                 if(src.InOnderzoek != null &&
                 new[] { "089999", "589999" }.Contains(src.InOnderzoek.AanduidingGegevensInOnderzoek) &&
-                dest.VerblijftNietOpAdresVanaf == null)
+                (dest.VerblijftNietOpAdresVanaf == null || src.InOnderzoek.DatumEindeOnderzoek != null))
                 {
                     dest.InOnderzoek = null;
                     dest.Verblijfadres.InOnderzoek = null;
