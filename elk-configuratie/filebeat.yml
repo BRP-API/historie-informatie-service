@@ -1,0 +1,9 @@
+filebeat.inputs:
+- type: log
+  paths:
+    - /var/log/historie-data-service.json
+  fields:
+    service: historie-data-service
+
+output.logstash:
+  hosts: ["logstash:5044"]
