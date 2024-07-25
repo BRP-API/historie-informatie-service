@@ -1,0 +1,15 @@
+filebeat.inputs:
+  # https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-input-filestream.html
+  - type: filestream
+    id: brp-api-filestream
+    paths:
+      - /var/log/brp-api/*.json
+    encoding: utf-8
+
+# https://www.elastic.co/guide/en/beats/filebeat/current/setup-kibana-endpoint.html
+setup.kibana:
+  host: "kibana:5601"
+
+# https://www.elastic.co/guide/en/beats/filebeat/current/logstash-output.html
+output.logstash:
+  hosts: 'logstash:5001'

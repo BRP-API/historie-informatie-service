@@ -1,0 +1,50 @@
+services:
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
+    container_name: elasticsearch
+    environment:
+      # development environment settings
+      # single Elasticsearch instance
+      - discovery.type=single-node
+      # disable Elasticsearch security features
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
+    container_name: kibana
+    ports:
+      - "5601:5601"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:${ELK_VERSION}
+    container_name: logstash
+    volumes:
+      # https://www.elastic.co/guide/en/logstash/current/config-setting-files.html
+      - ./configuration/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./configuration/logstash.yml:/usr/share/logstash/config/logstash.yml
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    container_name: filebeat
+    image: docker.elastic.co/beats/filebeat:${ELK_VERSION}
+    depends_on:
+      - logstash
+    # environment:
+    #   # https://www.elastic.co/guide/en/beats/libbeat/current/config-file-permissions.html#_disabling_strict_permission_checks
+    #   - strict.perms=false
+    volumes:
+      - ./configuration/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ../test-data/logs:/var/log/brp-api:ro
+    entrypoint: "filebeat -e -strict.perms=false"
+
+networks:
+  default:
+    name: elastic
+    external: false
