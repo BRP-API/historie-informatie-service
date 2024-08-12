@@ -2,9 +2,30 @@ filebeat.inputs:
   # https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-input-filestream.html
   - type: filestream
     id: brp-api-filestream
+    enabled: true
     paths:
       - /var/log/brp-api/*.json
     encoding: utf-8
+    # exclude_lines: ['healthcheck']
+    parsers:
+      - ndjson:
+          expand_keys: true
+          keys_under_root: true
+          # message_key: message
+    processors:
+      # https://www.elastic.co/guide/en/beats/filebeat/8.15/move-fields.html
+      - move_fields:
+          from: "metadata"
+          fields: [
+            "autorisatie.claims",
+            "autorisatie.regel",
+            "request.headers",
+            "request.body",
+            "response.headers",
+            "response.body"
+          ]
+          ignore_missing: true
+          to: "brp."
 
 # https://www.elastic.co/guide/en/beats/filebeat/current/setup-kibana-endpoint.html
 setup.kibana:
