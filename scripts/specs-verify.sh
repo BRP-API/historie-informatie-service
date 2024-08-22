@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PARAMS="{ \
+    \"apiUrl\": \"http://localhost:5002/haalcentraal/api\", \
     \"logFileToAssert\": \"./test-data/logs/historie-informatie-service.json\", \
     \"oAuth\": { \
         \"enable\": false \

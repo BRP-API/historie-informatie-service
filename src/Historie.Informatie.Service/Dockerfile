@@ -2,7 +2,6 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG BUILD_CONFIGURATION=Release
@@ -11,13 +10,17 @@ COPY ["Historie.Informatie.Service/Historie.Informatie.Service.csproj", "Histori
 RUN dotnet restore "./Historie.Informatie.Service/Historie.Informatie.Service.csproj"
 COPY . .
 WORKDIR "/src/Historie.Informatie.Service"
-RUN dotnet build "./Historie.Informatie.Service.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./Historie.Informatie.Service.csproj" -c "$BUILD_CONFIGURATION" -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Historie.Informatie.Service.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Historie.Informatie.Service.csproj" -c "$BUILD_CONFIGURATION" -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# See https://github.com/Contrast-Security-OSS/agent-operator/blob/master/docs/public/08-tips.md
+ENV DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE=false
+
 ENTRYPOINT ["dotnet", "Historie.Informatie.Service.dll"]

@@ -6,6 +6,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Release
       - ASPNETCORE_URLS=http://+:5000
       - Ecs__Path=/var/log/historie-informatie-service.json
+      - Ecs__SecuredPath=/var/log/historie-informatie-service-secured.json
       - Routes__0__DownstreamScheme=http
       - Routes__0__DownstreamHostAndPorts__0__Host=historie-data-service
       - Routes__0__DownstreamHostAndPorts__0__Port=80
