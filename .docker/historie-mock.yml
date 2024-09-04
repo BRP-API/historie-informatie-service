@@ -1,0 +1,16 @@
+services:
+
+  historie-mock:
+    container_name: historie-mock
+    image: ghcr.io/brp-api/historie-data-service-mock:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Release
+      - ASPNETCORE_URLS=http://+:5010
+    ports:
+      - "5011:5010"
+    networks:
+      - brp-api-network
+
+networks:
+  brp-api-network:
+    name: brp-api-network
