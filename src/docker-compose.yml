@@ -7,28 +7,10 @@ services:
     build:
       context: .
       dockerfile: Historie.Informatie.Service/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Release
-      - ASPNETCORE_URLS=http://+:5000
-    ports:
-      - "5000:5000"
-    networks:
-      - brp-api-network
 
-  historiedataservicemock:
-    container_name: historiedataservicemock
-    image: ghcr.io/brp-api/historie-data-service-mock:latest
+  historieservicemock:
+    container_name: historieservicemock
+    image: ghcr.io/brp-api/historie-service-mock:latest
     build:
       context: .
       dockerfile: Historie.Data.Mock/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Release
-      - ASPNETCORE_URLS=http://+:5010
-    ports:
-      - "5011:5010"
-    networks:
-      - brp-api-network
-
-networks:
-  brp-api-network:
-    name: brp-api-network

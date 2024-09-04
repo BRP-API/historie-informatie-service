@@ -1,8 +1,8 @@
 services:
 
-  historie-mock:
-    container_name: historie-mock
-    image: ghcr.io/brp-api/historie-data-service-mock:latest
+  historie-service-mock:
+    container_name: historie-service-mock
+    image: ghcr.io/brp-api/historie-service-mock:latest
     environment:
       - ASPNETCORE_ENVIRONMENT=Release
       - ASPNETCORE_URLS=http://+:5010
