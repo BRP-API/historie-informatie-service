@@ -1,15 +1,44 @@
-var builder = WebApplication.CreateBuilder(args);
+using Brp.Shared.Infrastructure.Logging;
+using Brp.Shared.Infrastructure.Utils;
+using Historie.Data.Mock.Extensions;
+using Historie.Data.Mock.Repositories;
+using Historie.Informatie.Service.Middlewares;
+using Serilog;
 
-// Add services to the container.
+Log.Logger = SerilogHelpers.SetupSerilogBootstrapLogger();
 
-builder.Services.AddControllers();
+try
+{
+    Log.Information("Starting {AppName} v{AppVersion}. TimeZone: {TimeZone}. Now: {TimeNow}",
+                    AssemblyHelpers.Name, AssemblyHelpers.Version, TimeZoneInfo.Local.StandardName, DateTime.Now);
 
-var app = builder.Build();
+    var builder = WebApplication.CreateBuilder(args);
 
-// Configure the HTTP request pipeline.
+    builder.Services.AddHttpContextAccessor();
 
-app.UseAuthorization();
+    builder.SetupSerilog(Log.Logger);
 
-app.MapControllers();
+    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-app.Run();
+    builder.Services.AddScoped<PersoonRepository>();
+
+    builder.Services.AddControllers()
+                    .ConfigureInvalidModelStateHandling()
+                    .AddNewtonsoftJson();
+
+    var app = builder.Build();
+
+    app.UseMiddleware<OverwriteResponseBodyMiddleware>();
+
+    app.MapControllers();
+
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "{AppName} terminated unexpectedly", AssemblyHelpers.Name);
+}
+finally
+{
+    Log.CloseAndFlush();
+}
