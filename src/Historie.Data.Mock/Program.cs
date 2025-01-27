@@ -1,6 +1,7 @@
 using Brp.Shared.Infrastructure.Logging;
 using Brp.Shared.Infrastructure.Utils;
-using Historie.Data.Mock.Extensions;
+using Brp.Shared.Validatie;
+using Brp.Shared.Validatie.Middleware;
 using Historie.Data.Mock.Repositories;
 using Historie.Informatie.Service.Middlewares;
 using Serilog;
@@ -18,21 +19,24 @@ try
 
     builder.SetupSerilog(Log.Logger);
 
+    builder.SetupVerblijfplaatshistorieRequestValidation();
+
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
     builder.Services.AddScoped<PersoonRepository>();
 
     builder.Services.AddControllers()
-                    .ConfigureInvalidModelStateHandling()
                     .AddNewtonsoftJson();
 
     var app = builder.Build();
+
+    app.UseMiddleware<RequestValidatieMiddleware>();
 
     app.UseMiddleware<OverwriteResponseBodyMiddleware>();
 
     app.MapControllers();
 
-    app.Run();
+    await app.RunAsync();
 }
 catch (Exception ex)
 {
@@ -40,5 +44,5 @@ catch (Exception ex)
 }
 finally
 {
-    Log.CloseAndFlush();
+    await Log.CloseAndFlushAsync();
 }
