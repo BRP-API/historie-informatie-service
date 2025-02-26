@@ -1,7 +1,7 @@
 services:
   historie-data-service:
     container_name: historie-data-service
-    image: ghcr.io/brp-api/historie-data-service:2.0.4-202407040735
+    image: ghcr.io/brp-api/historie-data-service:latest
     environment:
       - ASPNETCORE_URLS=http://+;
       - Database__Host=postgres
