@@ -6,11 +6,18 @@ on:
       - src/**
       - features/**
       - .github/workflows/ci.yml
+      - .docker/**
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
   workflow_dispatch:
     inputs:
       publishType:
         description: wat moet worden gereleased?
         required: true
+        default: 'ci-only'
         type: choice
         options:
           - ci-only
@@ -26,6 +33,7 @@ env:
   MOCK_PROJECT_PATH: ./src/Historie.Data.Mock
   MOCK_CSPROJ_FILE_PATH: ./src/Historie.Data.Mock/Historie.Data.Mock.csproj
   MOCK_CONTAINER_IMAGE: ghcr.io/brp-api/historie-service-mock
+  SPEC_VERIFY_STEP_SUMMARY_FILE_PATH: ./test-reports/cucumber-js/historie/step-summary.txt
 
 jobs:
   continuous-integration:
@@ -44,7 +52,6 @@ jobs:
         with:
           path-csproj-file: ${{ env.APP_CSPROJ_FILE_PATH }}
           build-run: ${{ steps.build-run-id.outputs.build-run }}
-
       - name: Zet versie met build run in mock csproj
         uses: ./.github/actions/zet-versie-met-build-run-in-csproj
         id: mock-version
@@ -52,8 +59,8 @@ jobs:
           path-csproj-file: ${{ env.MOCK_CSPROJ_FILE_PATH }}
           build-run: ${{ steps.build-run-id.outputs.build-run }}
 
-      - name: Bepaal gewijzigd project
-        uses: dorny/paths-filter@v3
+      - name: Bepaal de gewijzigde applicatie(s) met dorny/paths-filter@v3.0.2
+        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36
         id: changed-project
         with:
           filters: |
@@ -61,7 +68,7 @@ jobs:
               - '${{ env.APP_PROJECT_PATH }}/**'
             mock:
               - '${{ env.MOCK_PROJECT_PATH }}/**'
-  
+
       - name: Valideer .NET solution
         uses: ./.github/actions/valideer-dotnet-solution
         with:
@@ -71,7 +78,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-
       - name: Install dependencies
         run: npm ci
 
@@ -84,53 +90,28 @@ jobs:
         run: |
           ./scripts/containers-build.sh
 
-      - name: Login to P5 Container Registry
-        uses: docker/login-action@v3.1.0
-        with:
-          registry: haalcentraal.azurecr.io
-          username: ${{ secrets.P5_CR_USER }}
-          password: ${{ secrets.P5_CR_PWD }}
-
       - name: Start containers
         run: |
           ./scripts/containers-start.sh ci
-
       - name: Wait for DB restart
         run: sleep 5s
         shell: bash
 
       - name: Valideer functionele specs
-        uses: ./.github/actions/valideer-functionele-specs
+        run: |
+          ./scripts/specs-verify.sh
 
       - name: Stop containers
         if: always()
         run: |
           ./scripts/containers-stop.sh ci
 
-      - name: Genereer test rapportage
+      - name: Voeg test summary toe aan Github Step Summary
         if: always()
         run: |
-          node ./scripts/generate-cucumber-reports.js ${{ steps.app-version.outputs.version }} ${{ steps.build-run-id.outputs.build-run }} ${{ github.ref_name }}
-      
-      - name: Upload test rapportage
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: Reports
-          path: test-reports
-
-      - name: Push test rapportage naar brp-api.github.io repo
-        if: false
-        uses: tech-thinker/push-to-repo@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.GIT_PAT_TOKEN }}
-        with:
-          source-directory: test-reports/cucumber-js/reports
-          destination-repository-name: brp-api.github.io
-          destination-github-username: BRP-API
-          target-branch: test-reports/historie
-          commit-message: "test rapporten van build: ${{ steps.build-run-id.outputs.build-run }}"
-
+          node ./scripts/generate-step-summary.js
+          echo "### Cucumber Test Reports" >> $GITHUB_STEP_SUMMARY
+          cat ${{ env.SPEC_VERIFY_STEP_SUMMARY_FILE_PATH }} >> $GITHUB_STEP_SUMMARY
       - name: Login to GitHub Container Registry
         if: always()
         uses: docker/login-action@v3.1.0
@@ -138,13 +119,11 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Configureer container image builder voor multi-platform
         uses: docker/setup-buildx-action@v3
         with:
           platforms: linux/amd64,linux/arm64
           driver: docker-container
-
       - name: Build & push app container images naar registry
         if: always() && (steps.changed-project.outputs.app == 'true' || inputs.publishType == 'app')
         uses: docker/build-push-action@v6
@@ -157,7 +136,6 @@ jobs:
             ${{ env.APP_CONTAINER_IMAGE }}:latest
             ${{ env.APP_CONTAINER_IMAGE }}:${{ steps.app-version.outputs.version }}-latest
             ${{ env.APP_CONTAINER_IMAGE }}:${{ steps.app-version.outputs.version }}-${{ steps.build-run-id.outputs.build-run }}
-
       - name: Build & push mock container images naar registry
         if: always() && (steps.changed-project.outputs.mock == 'true' || inputs.publishType == 'mock')
         uses: docker/build-push-action@v6
