@@ -24,3 +24,6 @@ npx cucumber-js -f json:./test-reports/cucumber-js/historie/test-result.json \
                 features/raadpleeg-verblijfplaats-met-periode \
                 --tags "not @skip-verify" \
                 --world-parameters "$PARAMS"
+if [ $? -ne 0 ]; then EXIT_CODE=1; fi
+
+exit $EXIT_CODE
