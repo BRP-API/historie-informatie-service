@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="15.1.3" />
-    <PackageReference Include="Ocelot" Version="24.1.0" />
+    <PackageReference Include="Ocelot" Version="25.0.2" />
   </ItemGroup>
 
   <ItemGroup>
