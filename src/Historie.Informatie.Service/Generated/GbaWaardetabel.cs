@@ -1,7 +1,7 @@
-﻿using Historie.Informatie.Service.Generated;
+﻿// using Historie.Informatie.Service.Generated;
 
-namespace HaalCentraal.Generated.DataService;
+// namespace HaalCentraal.Generated.DataService;
 
-public partial class Waardetabel : IWaardetabel
-{
-}
+// public partial class Waardetabel : IWaardetabel
+// {
+// }

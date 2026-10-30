@@ -18,7 +18,7 @@ public class VerblijfplaatsOnbekendVoorkomenProfile : Profile
             })
             .AfterMap((src, dest) =>
             {
-                dest.InOnderzoek = src.InOnderzoekVolgendeVerblijfplaats.MapDatumAanvangVolgendeVerblijfplaatsInOnderzoek(dest.InOnderzoek);
+                dest.InOnderzoek = src.InOnderzoekVolgendeVerblijfplaats.ConvertDatumAanvangVolgendeVerblijfplaatsInOnderzoek(dest.InOnderzoek);
             })
             ;
 

@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using HaalCentraal.Generated.DataService;
 using HaalCentraal.Generated.InformatieService;
-using Historie.Informatie.Service.Mappers;
+using Brp.Shared.DtoMappers.Mappers;
+
 
 namespace Historie.Informatie.Service.Profiles;
 

@@ -11,15 +11,15 @@ public interface IBrpVerblijfplaatsVoorkomen
     string? Straat { get; }
     int? Huisnummer { get; }
     string? Huisletter { get; }
-    IWaardetabel AanduidingBijHuisnummer { get; }
+    Brp.Shared.DtoMappers.Interfaces.IWaardetabel AanduidingBijHuisnummer { get; }
     string? Huisnummertoevoeging { get; }
-    IWaardetabel GemeenteVanInschrijving { get; }
+    Brp.Shared.DtoMappers.Interfaces.IWaardetabel GemeenteVanInschrijving { get; }
     string? Postcode { get; }
     string? Woonplaats { get; }
 
     string? Locatiebeschrijving { get; }
 
-    IWaardetabel Land { get; }
+    Brp.Shared.DtoMappers.Interfaces.IWaardetabel Land { get; }
     string? Regel1 { get; }
     string? Regel2 { get; }
     string? Regel3 { get; }

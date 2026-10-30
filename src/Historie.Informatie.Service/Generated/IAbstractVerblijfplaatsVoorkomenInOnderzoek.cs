@@ -1,4 +1,4 @@
-﻿using HaalCentraal.Generated.InformatieService;
+﻿using Brp.Shared.DtoMappers.BrpApiDtos;
 
 namespace Historie.Informatie.Service.Generated;
 

@@ -1,10 +1,38 @@
-﻿using HaalCentraal.Generated.InformatieService;
+﻿using Brp.Shared.DtoMappers.BrpApiDtos;
 using Historie.Informatie.Service.Generated;
+using Brp.Shared.DtoMappers.Mappers;
+using HaalCentraal.Generated.DataService;
+using HaalCentraal.Generated.InformatieService;
 
 namespace Historie.Informatie.Service.Mappers;
 
 public static class VerblijfplaatsVoorkomenMapper
 {
+
+    public static AbstractVerblijfplaatsVoorkomen? MapVoorkomen(this GbaVerblijfplaatsVoorkomen? voorkomen)
+    {
+        if (voorkomen is null) return null;
+
+        if (voorkomen.Land?.Code == "0000")
+            return VerblijfplaatsOnbekendVoorkomenMapper.Map(voorkomen);
+
+        if (voorkomen.Land is not null)
+        {
+            return VerblijfplaatsBuitenlandVoorkomenMapper.Map(voorkomen);
+        }
+
+        if (!string.IsNullOrWhiteSpace(voorkomen.Straat))
+        {
+           return AdresVoorkomenMapper.Map(voorkomen);
+        }
+
+        if (!string.IsNullOrWhiteSpace(voorkomen.Locatiebeschrijving))
+        {
+            return LocatieVoorkomenMapper.Map(voorkomen);
+        }
+
+        return null;
+    }
     public static bool HeeftDatumAanvangVolgendeVerblijf(this IBrpVerblijfplaatsVoorkomen voorkomen) =>
         !string.IsNullOrWhiteSpace(voorkomen.DatumAanvangVolgendeAdreshouding) ||
         !string.IsNullOrWhiteSpace(voorkomen.DatumAanvangVolgendeAdresBuitenland);
