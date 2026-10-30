@@ -6,7 +6,8 @@ namespace Historie.Informatie.Service.Mappers;
 
 public static class DatumTotInOnderzoekMapper
 {
-    public static T? ConvertDatumAanvangVolgendeVerblijfplaatsInOnderzoek<T>(this GbaInOnderzoek? inOnderzoekVolgendeVerblijfplaats, T? inOnderzoek) where T: IAbstractVerblijfplaatsVoorkomenInOnderzoek, new()
+    public static T? ConvertDatumAanvangVolgendeVerblijfplaatsInOnderzoek<T>(this GbaInOnderzoek? inOnderzoekVolgendeVerblijfplaats, 
+    T? inOnderzoek) where T: IAbstractVerblijfplaatsVoorkomenInOnderzoek, new()
     {
         switch(inOnderzoekVolgendeVerblijfplaats?.AanduidingGegevensInOnderzoek.PadLeft(6, '0'))
         {

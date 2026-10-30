@@ -1,19 +1,21 @@
-﻿using AutoMapper;
+﻿//using AutoMapper;
 using Brp.Shared.Infrastructure.Json;
+using Historie.Informatie.Service.Mappers;
 using Newtonsoft.Json;
-using Src = HaalCentraal.Generated.DataService;
-using Trg = HaalCentraal.Generated.InformatieService;
+using HaalCentraal.Generated.DataService;
 
 namespace Historie.Informatie.Service.Helpers;
 
 public static class TransformHelpers
 {
-    public static string Transform(this string payload, IMapper mapper)
+    public static string Transform(this string payload)
     {
-        var response = JsonConvert.DeserializeObject<Src.VerblijfplaatshistorieQueryResponse>(payload);
+        var response = JsonConvert.DeserializeObject<VerblijfplaatshistorieQueryResponse>(payload);
 
-        var retval = mapper.Map<Trg.VerblijfplaatshistorieQueryResponse>(response);
-
-        return retval.ToJsonCompact();
+        var retval = response.Map();
+        //afstemmen met het onderstaande correct is
+           return retval is null
+            ? "null"
+            : retval.ToJsonCompact();
     }
 }

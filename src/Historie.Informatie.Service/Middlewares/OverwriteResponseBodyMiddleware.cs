@@ -47,7 +47,7 @@ public class OverwriteResponseBodyMiddleware
         }
 
         var modifiedBody = context.Response.StatusCode == StatusCodes.Status200OK
-            ? body.Transform(_mapper)
+            ? body.Transform()
             : body;
 
         if (Log.IsEnabled(Serilog.Events.LogEventLevel.Debug))
