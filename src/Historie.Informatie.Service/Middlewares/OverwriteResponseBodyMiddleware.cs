@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Brp.Shared.Infrastructure.Http;
+﻿using Brp.Shared.Infrastructure.Http;
 using Brp.Shared.Infrastructure.Stream;
 using Brp.Shared.Infrastructure.Validatie;
 using Historie.Informatie.Service.Helpers;
@@ -10,13 +9,12 @@ namespace Historie.Informatie.Service.Middlewares;
 public class OverwriteResponseBodyMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly IMapper _mapper;
+
     private readonly IDiagnosticContext _diagnosticContext;
 
-    public OverwriteResponseBodyMiddleware(RequestDelegate next, IMapper mapper, IDiagnosticContext diagnosticContext)
+    public OverwriteResponseBodyMiddleware(RequestDelegate next, IDiagnosticContext diagnosticContext)
     {
         _next = next;
-        _mapper = mapper;
         _diagnosticContext = diagnosticContext;
     }
 

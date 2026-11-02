@@ -6,7 +6,7 @@ namespace Historie.Informatie.Service.Mappers;
 
 public class LocatieVoorkomenMapper
 {
-    public static LocatieVoorkomen Map(HaalCentraal.Generated.DataService.GbaVerblijfplaatsVoorkomen source)
+    public static LocatieVoorkomen? Map(GbaVerblijfplaatsVoorkomen source)
     {
        if (source is null)
         {
