@@ -3,7 +3,7 @@ using HaalCentraal.Generated.DataService;
 using HaalCentraal.Generated.InformatieService;
 namespace Historie.Informatie.Service.Mappers;
 
-public class AdresVoorkomenMapper
+public static class AdresVoorkomenMapper
 {
     public static AdresVoorkomen? Map(GbaVerblijfplaatsVoorkomen? source)
     {

@@ -4,7 +4,7 @@ using HaalCentraal.Generated.InformatieService;
 
 namespace Historie.Informatie.Service.Mappers;
 
-public class LocatieVoorkomenMapper
+public static class LocatieVoorkomenMapper
 {
     public static LocatieVoorkomen? Map(GbaVerblijfplaatsVoorkomen source)
     {
