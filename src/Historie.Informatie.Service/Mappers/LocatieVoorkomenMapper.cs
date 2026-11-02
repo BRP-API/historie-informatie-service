@@ -24,17 +24,17 @@ public class LocatieVoorkomenMapper
             {
                 Locatiebeschrijving = source.Locatiebeschrijving,
                 InOnderzoek =
-                    VerblijfadresLocatieInOnderzoekMapper.Map(source.InOnderzoek)
+                    VerblijfadresLocatieInOnderzoekConverter.Convert(source.InOnderzoek)
             },
             GemeenteVanInschrijving = source.GemeenteVanInschrijving,
-            InOnderzoek = LocatieVoorkomenInOnderzoekMapper.Map(source.InOnderzoek),
+            InOnderzoek = LocatieVoorkomenInOnderzoekConverter.Convert(source.InOnderzoek),
             Adressering = new AdresseringBinnenland
             {
                 Adresregel1 = source.Adresregel1(),
                 Adresregel2 = source.Adresregel2(
                     source.GemeenteVanInschrijving),
                 InOnderzoek =
-                    AdresseringBinnenlandInOnderzoekMapper.Map(source.InOnderzoek)
+                    AdresseringBinnenlandInOnderzoekConverter.Convert(source.InOnderzoek)
             }
         };
 

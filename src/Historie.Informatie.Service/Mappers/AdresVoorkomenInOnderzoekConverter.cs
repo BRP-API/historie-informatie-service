@@ -5,9 +5,9 @@ using HaalCentraal.Generated.InformatieService;
 
 namespace Historie.Informatie.Service.Mappers;
 
-public class AdresVoorkomenInOnderzoekMapper
+public class AdresVoorkomenInOnderzoekConverter
 {
-    public static AdresVoorkomenInOnderzoek? Map(GbaInOnderzoek? source)
+    public static AdresVoorkomenInOnderzoek? Convert(GbaInOnderzoek? source)
     {
      return source?.AanduidingGegevensInOnderzoek switch
         {

@@ -4,7 +4,7 @@ using HaalCentraal.Generated.InformatieService;
 
 namespace Historie.Informatie.Service.Mappers;
 
-public static class AdresseringBuitenlandInOnderzoekMapper
+public static class AdresseringBuitenlandInOnderzoekConverter
 {
     public static AdresseringBuitenlandInOnderzoek? Convert(this GbaInOnderzoek? source)
     {

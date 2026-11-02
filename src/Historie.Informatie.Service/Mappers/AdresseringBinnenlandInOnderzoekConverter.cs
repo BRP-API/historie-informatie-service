@@ -4,9 +4,9 @@ using HaalCentraal.Generated.InformatieService;
 
 namespace Historie.Informatie.Service.Mappers;
 
-public class AdresseringBinnenlandInOnderzoekMapper
+public class AdresseringBinnenlandInOnderzoekConverter
 {
-    public static AdresseringBinnenlandInOnderzoek? Map(GbaInOnderzoek? source)
+    public static AdresseringBinnenlandInOnderzoek? Convert(GbaInOnderzoek? source)
     {
          return source?.AanduidingGegevensInOnderzoek switch
         {

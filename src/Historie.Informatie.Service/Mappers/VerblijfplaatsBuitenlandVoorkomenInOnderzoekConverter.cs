@@ -6,7 +6,7 @@ namespace Historie.Informatie.Service.Mappers;
 
 public static class VerblijfplaatsBuitenlandVoorkomenInOnderzoekConverter
 {
-    public static VerblijfplaatsBuitenlandVoorkomenInOnderzoek? ToVerblijfplaatsBuitenlandVoorkomenInOnderzoek(this GbaInOnderzoek? source)
+    public static VerblijfplaatsBuitenlandVoorkomenInOnderzoek? Convert(this GbaInOnderzoek? source)
     {
           return source?.AanduidingGegevensInOnderzoek switch
         {

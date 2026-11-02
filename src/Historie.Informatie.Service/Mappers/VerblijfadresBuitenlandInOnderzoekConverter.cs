@@ -5,7 +5,7 @@ using HaalCentraal.Generated.InformatieService;
 
 namespace Historie.Informatie.Service.Mappers;
 
-public  static class VerblijfadresBuitenlandInOnderzoekMapper
+public  static class VerblijfadresBuitenlandInOnderzoekConverter
 {
     public static VerblijfadresBuitenlandInOnderzoek? Convert(this GbaInOnderzoek? source)
     {

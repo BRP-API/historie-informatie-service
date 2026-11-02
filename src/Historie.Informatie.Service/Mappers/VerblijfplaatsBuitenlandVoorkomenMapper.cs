@@ -26,7 +26,7 @@ public static class VerblijfplaatsBuitenlandVoorkomenMapper
                 Regel3 = source.Regel3,
                 Land = source.Land,
                 InOnderzoek =
-                    VerblijfadresBuitenlandInOnderzoekMapper.Convert(
+                    VerblijfadresBuitenlandInOnderzoekConverter.Convert(
                         source.InOnderzoek)
             },
             Adressering = new AdresseringBuitenland
@@ -36,10 +36,11 @@ public static class VerblijfplaatsBuitenlandVoorkomenMapper
                 Adresregel3 = source.Adresregel3(),
                 Land = source.Land(),
                 InOnderzoek =
-                    AdresseringBuitenlandInOnderzoekMapper.Convert(
+                    AdresseringBuitenlandInOnderzoekConverter.Convert(
                         source.InOnderzoek)
             },
-            InOnderzoek = source.InOnderzoek.ToVerblijfplaatsBuitenlandVoorkomenInOnderzoek()
+            InOnderzoek = VerblijfplaatsBuitenlandVoorkomenInOnderzoekConverter.Convert(
+                source.InOnderzoek)
         };
 
         buitenlandVoorkomen.InOnderzoek =

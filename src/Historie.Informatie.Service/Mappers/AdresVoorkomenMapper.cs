@@ -18,7 +18,7 @@ public class AdresVoorkomenMapper
             {
                 Adresregel1 = source.Adresregel1(),
                 Adresregel2 = source.Adresregel2(source.GemeenteVanInschrijving),
-                InOnderzoek = AdresseringBinnenlandInOnderzoekMapper.Map(source.InOnderzoek)
+                InOnderzoek = AdresseringBinnenlandInOnderzoekConverter.Convert(source.InOnderzoek)
             },
             Verblijfadres = new VerblijfadresBinnenland
             {
@@ -30,7 +30,7 @@ public class AdresVoorkomenMapper
                 AanduidingBijHuisnummer = source.AanduidingBijHuisnummer,
                 Postcode = source.Postcode,
                 Woonplaats = source.Woonplaats,
-                InOnderzoek = VerblijfadresBinnenlandInOnderzoekMapper.Map(source.InOnderzoek)
+                InOnderzoek = VerblijfadresBinnenlandInOnderzoekConverter.Convert(source.InOnderzoek)
             },
             FunctieAdres = source.FunctieAdres,
             AdresseerbaarObjectIdentificatie = source.AdresseerbaarObjectIdentificatie,
@@ -46,7 +46,7 @@ public class AdresVoorkomenMapper
                     source.DatumAanvangVolgendeAdresBuitenland)
                     ? source.InOnderzoek?.DatumIngangOnderzoek?.Map()
                     : null,
-            InOnderzoek = AdresVoorkomenInOnderzoekMapper.Map(source.InOnderzoek)
+            InOnderzoek = AdresVoorkomenInOnderzoekConverter.Convert(source.InOnderzoek)
         };
   adresVoorkomen.InOnderzoek =
             source.InOnderzoekVolgendeVerblijfplaats

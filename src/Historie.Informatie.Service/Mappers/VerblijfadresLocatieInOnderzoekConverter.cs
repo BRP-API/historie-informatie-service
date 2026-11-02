@@ -4,9 +4,9 @@ using HaalCentraal.Generated.InformatieService;
 
 namespace Historie.Informatie.Service.Mappers;
 
-public class VerblijfadresLocatieInOnderzoekMapper
+public class VerblijfadresLocatieInOnderzoekConverter
 {
-    public static VerblijfadresLocatieInOnderzoek? Map(GbaInOnderzoek? source)
+    public static VerblijfadresLocatieInOnderzoek? Convert(GbaInOnderzoek? source)
     {
         return source?.AanduidingGegevensInOnderzoek switch
         {
