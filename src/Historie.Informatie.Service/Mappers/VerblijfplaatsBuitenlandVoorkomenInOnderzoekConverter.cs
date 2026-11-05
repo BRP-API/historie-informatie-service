@@ -1,15 +1,14 @@
-﻿using AutoMapper;
+using Brp.Shared.DtoMappers.Mappers;
 using HaalCentraal.Generated.DataService;
 using HaalCentraal.Generated.InformatieService;
-using Historie.Informatie.Service.Mappers;
 
-namespace Historie.Informatie.Service.Profiles;
+namespace Historie.Informatie.Service.Mappers;
 
-public class VerblijfplaatsOnbekendVoorkomenInOnderzoekConverter : ITypeConverter<GbaInOnderzoek, VerblijfplaatsOnbekendVoorkomenInOnderzoek?>
+public static class VerblijfplaatsBuitenlandVoorkomenInOnderzoekConverter
 {
-    public VerblijfplaatsOnbekendVoorkomenInOnderzoek? Convert(GbaInOnderzoek source, VerblijfplaatsOnbekendVoorkomenInOnderzoek? destination, ResolutionContext context)
+    public static VerblijfplaatsBuitenlandVoorkomenInOnderzoek? Convert(this GbaInOnderzoek? source)
     {
-        return source?.AanduidingGegevensInOnderzoek switch
+          return source?.AanduidingGegevensInOnderzoek switch
         {
             "080000" or "580000" => CategorieVerblijfplaatsInOnderzoek(source),
             "081300" or "581300" => GroepAdresBuitenlandInOnderzoek(source),
@@ -18,8 +17,7 @@ public class VerblijfplaatsOnbekendVoorkomenInOnderzoekConverter : ITypeConverte
             _ => null
         };
     }
-
-    private static VerblijfplaatsOnbekendVoorkomenInOnderzoek CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
+      private static VerblijfplaatsBuitenlandVoorkomenInOnderzoek? CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             DatumVan = true,
@@ -28,7 +26,7 @@ public class VerblijfplaatsOnbekendVoorkomenInOnderzoekConverter : ITypeConverte
             DatumIngangOnderzoek = source?.DatumIngangOnderzoek.Map()
         };
 
-    private static VerblijfplaatsOnbekendVoorkomenInOnderzoek GroepAdresBuitenlandInOnderzoek(GbaInOnderzoek source) =>
+    private static VerblijfplaatsBuitenlandVoorkomenInOnderzoek? GroepAdresBuitenlandInOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             DatumVan = true,
@@ -36,14 +34,14 @@ public class VerblijfplaatsOnbekendVoorkomenInOnderzoekConverter : ITypeConverte
             DatumIngangOnderzoek = source?.DatumIngangOnderzoek.Map()
         };
 
-    private static VerblijfplaatsOnbekendVoorkomenInOnderzoek DatumAanvangAdresBuitenlandInOnderzoek(GbaInOnderzoek source) =>
+    private static VerblijfplaatsBuitenlandVoorkomenInOnderzoek? DatumAanvangAdresBuitenlandInOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             DatumVan = true,
             DatumIngangOnderzoek = source?.DatumIngangOnderzoek.Map()
         };
 
-    private static VerblijfplaatsOnbekendVoorkomenInOnderzoek LandInOnderzoek(GbaInOnderzoek source) =>
+    private static VerblijfplaatsBuitenlandVoorkomenInOnderzoek? LandInOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             Type = true,

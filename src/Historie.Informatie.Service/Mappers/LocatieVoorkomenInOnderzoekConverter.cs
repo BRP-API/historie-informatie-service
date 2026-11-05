@@ -1,15 +1,14 @@
-﻿using AutoMapper;
+using Brp.Shared.DtoMappers.Mappers;
 using HaalCentraal.Generated.DataService;
 using HaalCentraal.Generated.InformatieService;
-using Historie.Informatie.Service.Mappers;
 
-namespace Historie.Informatie.Service.Profiles;
+namespace Historie.Informatie.Service.Mappers;
 
-public class LocatieVoorkomenInOnderzoekConverter : ITypeConverter<GbaInOnderzoek, LocatieVoorkomenInOnderzoek?>
+public static class LocatieVoorkomenInOnderzoekConverter
 {
-    public LocatieVoorkomenInOnderzoek? Convert(GbaInOnderzoek source, LocatieVoorkomenInOnderzoek? destination, ResolutionContext context)
+    public static LocatieVoorkomenInOnderzoek? Convert(GbaInOnderzoek? source)
     {
-        return source?.AanduidingGegevensInOnderzoek switch
+         return source?.AanduidingGegevensInOnderzoek switch
         {
             "080000" or
             "580000" => CategorieVerblijfplaatsInOnderzoek(source),
@@ -30,8 +29,7 @@ public class LocatieVoorkomenInOnderzoekConverter : ITypeConverter<GbaInOnderzoe
             _ => null
         };
     }
-
-    private static LocatieVoorkomenInOnderzoek CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
+  private static LocatieVoorkomenInOnderzoek CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             DatumVan = true,

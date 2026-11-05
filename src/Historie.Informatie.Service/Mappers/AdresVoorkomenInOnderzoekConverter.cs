@@ -1,15 +1,15 @@
-﻿using AutoMapper;
+using Brp.Shared.DtoMappers.Mappers;
 using HaalCentraal.Generated.DataService;
 using HaalCentraal.Generated.InformatieService;
-using Historie.Informatie.Service.Mappers;
 
-namespace Historie.Informatie.Service.Profiles;
 
-public class AdresVoorkomenInOnderzoekConverter : ITypeConverter<GbaInOnderzoek, AdresVoorkomenInOnderzoek?>
+namespace Historie.Informatie.Service.Mappers;
+
+public static class AdresVoorkomenInOnderzoekConverter
 {
-    public AdresVoorkomenInOnderzoek? Convert(GbaInOnderzoek source, AdresVoorkomenInOnderzoek? destination, ResolutionContext context)
+    public static AdresVoorkomenInOnderzoek? Convert(GbaInOnderzoek? source)
     {
-        return source?.AanduidingGegevensInOnderzoek switch
+     return source?.AanduidingGegevensInOnderzoek switch
         {
             "080000" or
             "580000" => CategorieVerblijfplaatsInOnderzoek(source),
@@ -37,7 +37,7 @@ public class AdresVoorkomenInOnderzoekConverter : ITypeConverter<GbaInOnderzoek,
         };
     }
 
-    private static AdresVoorkomenInOnderzoek CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
+     private static AdresVoorkomenInOnderzoek CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             AdresseerbaarObjectIdentificatie = true,

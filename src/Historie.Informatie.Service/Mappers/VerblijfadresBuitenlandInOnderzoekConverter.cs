@@ -1,15 +1,15 @@
-﻿using AutoMapper;
+
+using Brp.Shared.DtoMappers.Mappers;
 using HaalCentraal.Generated.DataService;
 using HaalCentraal.Generated.InformatieService;
-using Historie.Informatie.Service.Mappers;
 
-namespace Historie.Informatie.Service.Profiles;
+namespace Historie.Informatie.Service.Mappers;
 
-public class VerblijfadresBuitenlandInOnderzoekConverter : ITypeConverter<GbaInOnderzoek, VerblijfadresBuitenlandInOnderzoek?>
+public  static class VerblijfadresBuitenlandInOnderzoekConverter
 {
-    public VerblijfadresBuitenlandInOnderzoek? Convert(GbaInOnderzoek source, VerblijfadresBuitenlandInOnderzoek? destination, ResolutionContext context)
+    public static VerblijfadresBuitenlandInOnderzoek? Convert(this GbaInOnderzoek? source)
     {
-        return source?.AanduidingGegevensInOnderzoek switch
+           return source?.AanduidingGegevensInOnderzoek switch
         {
             "080000" or
             "580000" => CategorieVerblijfplaatsInOnderzoek(source),
@@ -26,8 +26,7 @@ public class VerblijfadresBuitenlandInOnderzoekConverter : ITypeConverter<GbaInO
             _ => null
         };
     }
-
-    private static VerblijfadresBuitenlandInOnderzoek CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
+     private static VerblijfadresBuitenlandInOnderzoek? CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             Regel1 = true,
@@ -37,7 +36,7 @@ public class VerblijfadresBuitenlandInOnderzoekConverter : ITypeConverter<GbaInO
             DatumIngangOnderzoek = source?.DatumIngangOnderzoek.Map()
         };
 
-    private static VerblijfadresBuitenlandInOnderzoek GroepAdresBuitenlandInOnderzoek(GbaInOnderzoek source) =>
+    private static VerblijfadresBuitenlandInOnderzoek? GroepAdresBuitenlandInOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             Regel1 = true,
@@ -47,28 +46,28 @@ public class VerblijfadresBuitenlandInOnderzoekConverter : ITypeConverter<GbaInO
             DatumIngangOnderzoek = source?.DatumIngangOnderzoek.Map()
         };
 
-    private static VerblijfadresBuitenlandInOnderzoek LandInOnderzoek(GbaInOnderzoek source) =>
+    private static VerblijfadresBuitenlandInOnderzoek? LandInOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             Land = true,
             DatumIngangOnderzoek = source?.DatumIngangOnderzoek.Map()
         };
 
-    private static VerblijfadresBuitenlandInOnderzoek Regel1InOnderzoek(GbaInOnderzoek source) =>
+    private static VerblijfadresBuitenlandInOnderzoek? Regel1InOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             Regel1 = true,
             DatumIngangOnderzoek = source?.DatumIngangOnderzoek.Map()
         };
 
-    private static VerblijfadresBuitenlandInOnderzoek Regel2InOnderzoek(GbaInOnderzoek source) =>
+    private static VerblijfadresBuitenlandInOnderzoek? Regel2InOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             Regel2 = true,
             DatumIngangOnderzoek = source?.DatumIngangOnderzoek.Map()
         };
 
-    private static VerblijfadresBuitenlandInOnderzoek Regel3InOnderzoek(GbaInOnderzoek source) =>
+    private static VerblijfadresBuitenlandInOnderzoek? Regel3InOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             Regel3 = true,
