@@ -8,23 +8,30 @@ public static class AdresseringBuitenlandInOnderzoekConverter
 {
     public static AdresseringBuitenlandInOnderzoek? Convert(this GbaInOnderzoek? source)
     {
-                return source?.AanduidingGegevensInOnderzoek switch
+        if (source is null)
+    {
+        return null;
+    }
+
+    var aanduiding = NormalizeAanduiding(source.AanduidingGegevensInOnderzoek);
+
+    return aanduiding switch
         {
-            "080000" or
-            "580000" => CategorieVerblijfplaatsInOnderzoek(source),
-            "081300" or
-            "581300" => GroepAdresBuitenlandInOnderzoek(source),
-            "081310" or
-            "581310" => LandInOnderzoek(source),
-            "081330" or
-            "581330" => Regel1InOnderzoek(source),
-            "081340" or
-            "581340" => Regel2InOnderzoek(source),
-            "081350" or
-            "581350" => Regel3InOnderzoek(source),
+            "080000" => CategorieVerblijfplaatsInOnderzoek(source),
+            "081300" => GroepAdresBuitenlandInOnderzoek(source),
+            "081310" => LandInOnderzoek(source),
+            "081330" => Regel1InOnderzoek(source),
+            "081340" => Regel2InOnderzoek(source),
+            "081350" => Regel3InOnderzoek(source),
             _ => null
         };
     }
+
+    private static string? NormalizeAanduiding(string? aanduiding) =>
+        aanduiding?.StartsWith("58", StringComparison.Ordinal) == true
+            ? $"08{aanduiding[2..]}"
+            : aanduiding;
+
      private static AdresseringBuitenlandInOnderzoek? CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
         new()
         {

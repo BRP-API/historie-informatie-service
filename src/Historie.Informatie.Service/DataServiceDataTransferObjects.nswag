@@ -48,7 +48,7 @@
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "additionalNamespaceUsages": [
         "Brp.Shared.DtoMappers.CommonDtos",
-        "Brp.Shared.DtoMappers.BrpApiDtos"
+        "Brp.Shared.DtoMappers.BrpDtos"
       ],
       "additionalContractNamespaceUsages": [],
       "generateOptionalParameters": false,
@@ -80,10 +80,11 @@
       "jsonLibrary": "NewtonsoftJson",
       "generateDefaultValues": true,
       "generateDataAnnotations": false,
-      "excludedTypeNames": [
-        "AbstractDatum",  
+      "excludedTypeNames": [  
         "Waardetabel", 
-        "RniDeelnemer"
+        "RniDeelnemer", 
+        "OpschortingBijhoudingBasis", 
+        "GbaOpschortingBijhouding"
       ],
       "excludedParameterNames": [],
       "handleReferences": false,

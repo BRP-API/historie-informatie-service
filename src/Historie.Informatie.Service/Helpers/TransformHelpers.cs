@@ -1,5 +1,4 @@
-﻿//using AutoMapper;
-using Brp.Shared.Infrastructure.Json;
+﻿using Brp.Shared.Infrastructure.Json;
 using Historie.Informatie.Service.Mappers;
 using Newtonsoft.Json;
 using HaalCentraal.Generated.DataService;
@@ -8,13 +7,13 @@ namespace Historie.Informatie.Service.Helpers;
 
 public static class TransformHelpers
 {
-    public static string Transform(this string payload)
+    public static string? Transform(this string payload)
     {
         var response = JsonConvert.DeserializeObject<VerblijfplaatshistorieQueryResponse>(payload);
 
         var retval = response.Map();
            return retval is null
-            ? "null"
+            ? null
             : retval.ToJsonCompact();
     }
 }
