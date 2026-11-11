@@ -1,13 +1,12 @@
-﻿using AutoMapper;
+using Brp.Shared.DtoMappers.Mappers;
 using HaalCentraal.Generated.DataService;
 using HaalCentraal.Generated.InformatieService;
-using Historie.Informatie.Service.Mappers;
 
-namespace Historie.Informatie.Service.Profiles;
+namespace Historie.Informatie.Service.Mappers;
 
-public class VerblijfadresLocatieInOnderzoekConverter : ITypeConverter<GbaInOnderzoek, VerblijfadresLocatieInOnderzoek?>
+public static class VerblijfadresLocatieInOnderzoekConverter
 {
-    public VerblijfadresLocatieInOnderzoek? Convert(GbaInOnderzoek source, VerblijfadresLocatieInOnderzoek? destination, ResolutionContext context)
+    public static VerblijfadresLocatieInOnderzoek? Convert(GbaInOnderzoek? source)
     {
         return source?.AanduidingGegevensInOnderzoek switch
         {
@@ -20,8 +19,7 @@ public class VerblijfadresLocatieInOnderzoekConverter : ITypeConverter<GbaInOnde
             _ => null
         };
     }
-
-    private static VerblijfadresLocatieInOnderzoek CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
+       private static VerblijfadresLocatieInOnderzoek CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             Locatiebeschrijving = true,

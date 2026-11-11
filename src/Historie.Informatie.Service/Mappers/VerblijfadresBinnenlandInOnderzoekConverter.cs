@@ -1,15 +1,14 @@
-﻿using AutoMapper;
+using Brp.Shared.DtoMappers.Mappers;
 using HaalCentraal.Generated.DataService;
 using HaalCentraal.Generated.InformatieService;
-using Historie.Informatie.Service.Mappers;
 
-namespace Historie.Informatie.Service.Profiles;
+namespace Historie.Informatie.Service.Mappers;
 
-public class VerblijfadresBinnenlandInOnderzoekConverter : ITypeConverter<GbaInOnderzoek, VerblijfadresBinnenlandInOnderzoek?>
+public static class VerblijfadresBinnenlandInOnderzoekConverter
 {
-    public VerblijfadresBinnenlandInOnderzoek? Convert(GbaInOnderzoek source, VerblijfadresBinnenlandInOnderzoek? destination, ResolutionContext context)
+    public static VerblijfadresBinnenlandInOnderzoek? Convert(GbaInOnderzoek? source)
     {
-        return source?.AanduidingGegevensInOnderzoek switch
+         return source?.AanduidingGegevensInOnderzoek switch
         {
             "080000" or
             "580000" => CategorieVerblijfplaatsInOnderzoek(source),
@@ -41,7 +40,7 @@ public class VerblijfadresBinnenlandInOnderzoekConverter : ITypeConverter<GbaInO
         };
     }
 
-    private static VerblijfadresBinnenlandInOnderzoek CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
+     private static VerblijfadresBinnenlandInOnderzoek CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             AanduidingBijHuisnummer = true,

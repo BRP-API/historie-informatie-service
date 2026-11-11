@@ -1,4 +1,4 @@
-﻿using HaalCentraal.Generated.InformatieService;
+﻿using Brp.Shared.DtoMappers.CommonDtos;
 using Historie.Informatie.Service.Generated;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -20,7 +20,7 @@ public static class AdresregelsMapper
         return null;
     }
 
-    public static string? Adresregel2(this IBrpVerblijfplaatsVoorkomen verblijfplaats, IWaardetabel gemeenteVanInschrijving)
+    public static string? Adresregel2(this IBrpVerblijfplaatsVoorkomen verblijfplaats, Brp.Shared.DtoMappers.Interfaces.IWaardetabel gemeenteVanInschrijving)
     {
         if (verblijfplaats == null) return null;
 
@@ -127,7 +127,7 @@ public static class AdresregelsMapper
         retval.Append(adres.Huisnummertoevoeging);
     }
 
-    private static string? ConstructAdresregel2FromAdres(this IBrpVerblijfplaatsVoorkomen adres, IWaardetabel gemeenteVanInschrijving)
+    private static string? ConstructAdresregel2FromAdres(this IBrpVerblijfplaatsVoorkomen adres, Brp.Shared.DtoMappers.Interfaces.IWaardetabel gemeenteVanInschrijving)
     {
         if (string.IsNullOrWhiteSpace(adres.Postcode)) return null;
 
@@ -139,7 +139,7 @@ public static class AdresregelsMapper
             : $"{postcodeNum} {postcodeAlfa}  {gemeenteVanInschrijving.Omschrijving?.ToUpperInvariant()}";
     }
 
-    private static string? ConstructAdresregel2FromLocatie(this IBrpVerblijfplaatsVoorkomen _, IWaardetabel gemeenteVanInschrijving)
+    private static string? ConstructAdresregel2FromLocatie(this IBrpVerblijfplaatsVoorkomen _, Brp.Shared.DtoMappers.Interfaces.IWaardetabel gemeenteVanInschrijving)
     {
         return gemeenteVanInschrijving?.Omschrijving.ToUpperInvariant();
     }

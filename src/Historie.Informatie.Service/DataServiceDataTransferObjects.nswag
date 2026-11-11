@@ -46,7 +46,10 @@
       "queryNullValue": "",
       "className": "{controller}Client",
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "additionalNamespaceUsages": [],
+      "additionalNamespaceUsages": [
+        "Brp.Shared.DtoMappers.CommonDtos",
+        "Brp.Shared.DtoMappers.BrpDtos"
+      ],
       "additionalContractNamespaceUsages": [],
       "generateOptionalParameters": false,
       "generateJsonMethods": false,
@@ -77,7 +80,12 @@
       "jsonLibrary": "NewtonsoftJson",
       "generateDefaultValues": true,
       "generateDataAnnotations": false,
-      "excludedTypeNames": [],
+      "excludedTypeNames": [  
+        "Waardetabel", 
+        "RniDeelnemer", 
+        "OpschortingBijhoudingBasis", 
+        "GbaOpschortingBijhouding"
+      ],
       "excludedParameterNames": [],
       "handleReferences": false,
       "generateImmutableArrayProperties": false,

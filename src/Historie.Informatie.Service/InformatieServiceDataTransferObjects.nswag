@@ -46,7 +46,10 @@
       "queryNullValue": "",
       "className": "{controller}Client",
       "operationGenerationMode": "MultipleClientsFromOperationId",
-      "additionalNamespaceUsages": [],
+      "additionalNamespaceUsages": [
+        "Brp.Shared.DtoMappers.CommonDtos",
+        "Brp.Shared.DtoMappers.BrpApiDtos"
+      ],
       "additionalContractNamespaceUsages": [],
       "generateOptionalParameters": false,
       "generateJsonMethods": false,
@@ -77,7 +80,17 @@
       "jsonLibrary": "NewtonsoftJson",
       "generateDefaultValues": true,
       "generateDataAnnotations": false,
-      "excludedTypeNames": [],
+      "excludedTypeNames": [
+        "AbstractDatum",
+        "VolledigeDatum",
+        "DatumOnbekend",
+        "JaarDatum",
+        "JaarMaandDatum",
+        "Waardetabel",
+        "OpschortingBijhouding",
+        "OpschortingBijhoudingBasis",
+        "RniDeelnemer"
+      ],
       "excludedParameterNames": [],
       "handleReferences": false,
       "generateImmutableArrayProperties": false,

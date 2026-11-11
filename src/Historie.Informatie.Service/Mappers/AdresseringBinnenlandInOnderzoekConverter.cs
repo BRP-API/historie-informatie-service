@@ -1,51 +1,47 @@
-﻿using AutoMapper;
+using Brp.Shared.DtoMappers.Mappers;
 using HaalCentraal.Generated.DataService;
 using HaalCentraal.Generated.InformatieService;
-using Historie.Informatie.Service.Mappers;
 
-namespace Historie.Informatie.Service.Profiles;
+namespace Historie.Informatie.Service.Mappers;
 
-public class AdresseringBinnenlandInOnderzoekConverter : ITypeConverter<GbaInOnderzoek, AdresseringBinnenlandInOnderzoek?>
+public static class AdresseringBinnenlandInOnderzoekConverter
 {
-    public AdresseringBinnenlandInOnderzoek? Convert(GbaInOnderzoek source, AdresseringBinnenlandInOnderzoek? destination, ResolutionContext context)
+    public static AdresseringBinnenlandInOnderzoek? Convert(GbaInOnderzoek? source)
     {
-        return source?.AanduidingGegevensInOnderzoek switch
+        if (source is null)
         {
-            "080000" or
-            "580000" => CategorieVerblijfplaatsInOnderzoek(source),
-            "080900" or
-            "580900" => GroepGemeenteInOnderzoek(source),
-            "080910" or
-            "580910" => GemeenteVanInschrijvingInOnderzoek(source),
-            "081100" or
-            "581100" => GroepAdresInOnderzoek(source),
-            "081110" or
-            "581110" => StraatnaamInOnderzoek(source),
-            "081115" or
-            "581115" => OfficieleStraatnaamInOnderzoek(source),
-            "081120" or
-            "581120" => HuisnummerInOnderzoek(source),
-            "081130" or
-            "581130" => HuisletterInOnderzoek(source),
-            "081140" or
-            "581140" => HuisnummertoevoegingInOnderzoek(source),
-            "081150" or
-            "581150" => AanduidingBijHuisnummerInOnderzoek(source),
-            "081160" or
-            "581160" => PostcodeInOnderzoek(source),
-            "081170" or
-            "581170" => WoonplaatsnaamInOnderzoek(source),
-            "081200" or
-            "581200" => GroepLocatieInOnderzoek(source),
-            "081210" or
-            "581210" => LocatiebeschrijvingInOnderzoek(source),
-            "089999" or
-            "589999" => VastgesteldVerblijftNietOpAdresInOnderzoek(source),
+            return null;
+        }
+
+        var aanduiding = NormalizeAanduiding(source.AanduidingGegevensInOnderzoek);
+
+        return aanduiding switch
+        {
+            "080000" => CategorieVerblijfplaatsInOnderzoek(source),
+            "080900" => GroepGemeenteInOnderzoek(source),
+            "080910" => GemeenteVanInschrijvingInOnderzoek(source),
+            "081100" => GroepAdresInOnderzoek(source),
+            "081110" => StraatnaamInOnderzoek(source),
+            "081115" => OfficieleStraatnaamInOnderzoek(source),
+            "081120" => HuisnummerInOnderzoek(source),
+            "081130" => HuisletterInOnderzoek(source),
+            "081140" => HuisnummertoevoegingInOnderzoek(source),
+            "081150" => AanduidingBijHuisnummerInOnderzoek(source),
+            "081160" => PostcodeInOnderzoek(source),
+            "081170" => WoonplaatsnaamInOnderzoek(source),
+            "081200" => GroepLocatieInOnderzoek(source),
+            "081210" => LocatiebeschrijvingInOnderzoek(source),
+            "089999" => VastgesteldVerblijftNietOpAdresInOnderzoek(source),
             _ => null
         };
     }
 
-    private static AdresseringBinnenlandInOnderzoek CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
+    private static string? NormalizeAanduiding(string? aanduiding) =>
+        aanduiding?.StartsWith("58", StringComparison.Ordinal) == true
+            ? $"08{aanduiding[2..]}"
+            : aanduiding;
+
+     private static AdresseringBinnenlandInOnderzoek CategorieVerblijfplaatsInOnderzoek(GbaInOnderzoek source) =>
         new()
         {
             Adresregel1 = true,
